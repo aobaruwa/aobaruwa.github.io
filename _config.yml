@@ -1,17 +1,17 @@
-title: Sharon Zhang
-name: Sharon Zhang
-email: zsharonx@gmail.com
-url: https://sxzhang25.github.io/
-tagline: cs research, tech + society and miscellaneous.
-github: sxzhang25
+title: Ahmed Baruwa
+name: Ahmed Baruwa
+email: aobaruwa@gmail.com
+url: https://aobaruwa.github.io/
+tagline: artificial intelligence research, tech + society and miscellaneous.
+github: aobaruwa
 twitter: 
-  username: sxzhang25
+  username: aobaruwa
 social:
-  name: Sharon Zhang
+  name: Ahmed Baruwa
   links:
-    - https://twitter.com/sxzhang25
-    - https://www.linkedin.com/in/sharon-z-517795129/
-    - https://github.com/sxzhang25
+    - https://twitter.com/aobaruwa
+    - https://www.linkedin.com/in/ahmedbaruwa/
+    - https://github.com/aobaruwa
 
 plugins:
   - jekyll-paginate
