@@ -1,6 +1,6 @@
 # Personal site
 
-<a href="https://aobaruwa.github.io/">sxzhang25.github.io</a>
+<a href="https://aobaruwa.github.io/">aobaruwa.github.io</a>
 
 Built using Jekyll and Github Pages.
 
