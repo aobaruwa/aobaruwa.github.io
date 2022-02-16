@@ -1,0 +1,27 @@
+---
+layout: default
+---
+<h1>{{ page.title }}</h1>
+<p class="tags">
+  {% for tag in page.tags %}
+    {% capture tag_name %}{{ tag }}{% endcapture %}
+    [<a href="/tag/{{ tag_name }}"><nobr>{{ tag_name }}</nobr></a>]&nbsp;
+  {% endfor %}
+</p>
+<p class="meta">{{ page.date | date_to_string | downcase }} | <i>{% include readtime.html %}</i></p>
+<hr style="margin-bottom:50px;">
+
+<div class="post">
+  {{ content }}
+</div>
+
+{% if page.refs %}
+<div class="refs">
+  <h2>main references</h2>
+  <ol>
+  {% for ref in page.refs %}
+    <li>{{ ref }}</li>
+  {% endfor %}
+  </ol>
+</div>
+{% endif %}

@@ -1,0 +1,27 @@
+title: Sharon Zhang
+name: Sharon Zhang
+email: zsharonx@gmail.com
+url: https://sxzhang25.github.io/
+tagline: cs research, tech + society and miscellaneous.
+github: sxzhang25
+twitter: 
+  username: sxzhang25
+social:
+  name: Sharon Zhang
+  links:
+    - https://twitter.com/sxzhang25
+    - https://www.linkedin.com/in/sharon-z-517795129/
+    - https://github.com/sxzhang25
+
+plugins:
+  - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+markdown: kramdown
+
+paginate: 5
+paginate_path: "/blog/page:num/"
+
+permalink: /blog/:year/:month/:day/:title
+excerpt_separator: "<!--excerpt-->"

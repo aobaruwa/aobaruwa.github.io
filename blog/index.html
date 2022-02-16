@@ -1,0 +1,53 @@
+---
+layout: default
+title: blog
+---
+
+<h1>{{ page.title }}</h1>
+<p style="margin-left:0.2em; margin-top: 35px;">Some thoughts on papers, coding, tech + society, and other random topics. 
+  Mostly just recording thoughts for future me. All opinions are my own.
+</p>
+<p style="margin-left:0.2em; margin-bottom:35px;">
+  If you have any suggestions, questions or comments feel free to <a href="mailto:zsharonx@gmail.com?subject=[from the blog]">send me a note!</a>
+</p>
+
+<hr style="margin-bottom:35px;">
+
+<ul class="post-list">
+{% for post in paginator.posts %}
+<li><span>{{ post.date | date_to_string | downcase }}</span> » <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
+<div class="excerpt">
+<p>{{ post.excerpt }}</p>
+</div>
+<div class="read-more">
+<p><a href="{{ post.url }}"><i>Read more...</i></a></p>
+</div>
+{% endfor %}
+</ul>
+
+<!-- pagination -->
+{% if paginator.total_pages > 1 %}
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path | relative_url }}">&laquo; Prev</a>
+  {% else %}
+    <span>&laquo; Prev</span>
+  {% endif %}
+
+  {% for page in (1..paginator.total_pages) %}
+    {% if page == paginator.page %}
+      <em>{{ page }}</em>
+    {% elsif page == 1 %}
+      <a href="/blog/">{{ page }}</a>
+    {% else %}
+      <a href="{{ site.paginate_path | relative_url | replace: ':num', page }}">{{ page }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path | relative_url }}">Next &raquo;</a>
+  {% else %}
+    <span>Next &raquo;</span>
+  {% endif %}
+</div>
+{% endif %}
