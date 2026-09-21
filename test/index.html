@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio local test</title>
+  <style>
+    :root{--ink:#14221f;--paper:#f2f0e9;--acid:#d9f85a;--orange:#f26f4f;--muted:#64706a}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace}
+    main{max-width:1180px;margin:auto;padding:32px 24px}.top{display:flex;justify-content:space-between;align-items:end;border-bottom:1px solid #14221f44;padding-bottom:20px;margin-bottom:24px}
+    h1{font:700 clamp(2rem,5vw,4rem)/.95 system-ui,sans-serif;letter-spacing:-.07em;margin:0}.top p{color:var(--muted);margin:0;text-align:right}.checks-stage{min-height:28vh;display:flex;align-items:center;justify-content:center}.checks{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}.check{padding:9px 12px;border:1px solid #14221f44;background:#fff8}.check.pass{border-color:#557b31;background:#e6f5c4}.check.fail{border-color:#b3452e;background:#ffd9cd}.test-grid{display:grid;grid-template-columns:minmax(0,1fr) 1.5fr;gap:28px;align-items:start}.change-log{border-top:2px solid var(--ink);padding-top:16px}.change-log h2{font:700 1.8rem/.95 system-ui,sans-serif;letter-spacing:-.06em;margin:0 0 18px}.change-log ul{list-style:none;margin:0;padding:0}.change-log li{border-bottom:1px solid #14221f44;padding:13px 0;color:var(--muted)}.change-log strong{display:block;color:var(--ink);font-family:system-ui,sans-serif}.change-log span{display:block;font-size:12px;margin-top:3px}.preview{height:min(76vh,760px);border-top:2px solid var(--ink)}iframe{width:100%;height:100%;border:0}.note{font-size:12px;color:var(--muted);margin-top:24px}.note code{color:var(--ink)}
+    @media(max-width:760px){.test-grid{grid-template-columns:1fr}.checks-stage{min-height:22vh}}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="top"><h1>Local test<br>bench.</h1><p>Portfolio / QA<br>localhost-ready</p></div>
+    <div class="checks-stage">
+      <div class="checks" id="checks" aria-live="polite"><span class="check">Running checks...</span></div>
+    </div>
+    <div class="test-grid">
+      <section class="change-log" aria-labelledby="changes-title">
+        <h2 id="changes-title">Change log</h2>
+        <ul>
+          <li><strong>Dynamic page loading</strong><span>Homepage content loads from pages/home.html through the localhost shell.</span></li>
+          <li><strong>Interactive canvases</strong><span>Hero particle network and Background motion canvas are included.</span></li>
+          <li><strong>Research footprint</strong><span>Projects and Publications sections link to the BLOOM and TACL work.</span></li>
+          <li><strong>Expertise hierarchy</strong><span>Core skills use varied type sizes to show areas of emphasis.</span></li>
+          <li><strong>Resume and contact</strong><span>Downloadable resume and direct email actions are available.</span></li>
+        </ul>
+      </section>
+      <div class="preview"><iframe src="../index.html" title="Portfolio website preview"></iframe></div>
+    </div>
+    <p class="note">Run from the <code>Portfolio</code> folder: <code>python3 -m http.server 8000</code>, then open <code>http://localhost:8000/test/</code>.</p>
+  </main>
+  <script>
+    const checks = [
+      ['homepage', '../index.html', 'Homepage shell exists'],
+      ['content', '../pages/home.html', 'Homepage content exists'],
+      ['styles', '../styles.css', 'Stylesheet exists'],
+      ['script', '../script.js', 'Script exists'],
+      ['resume', '../Ahmed_Baruwa_Resume.pdf', 'Resume exists'],
+      ['test-content', '../pages/home.html', 'Canvas and sections present']
+    ];
+    const container = document.getElementById('checks');
+    container.replaceChildren();
+    checks.forEach(([name, path, label]) => {
+      const badge = document.createElement('span');
+      badge.className = 'check';
+      badge.textContent = `${name}: checking`;
+      container.appendChild(badge);
+      fetch(path).then(async response => {
+        const text = name === 'test-content' ? await response.text() : '';
+        const valid = response.ok && (!text || ['hero-canvas', 'blob-canvas', 'publications', 'resume', 'contact'].every(value => text.includes(value)));
+        badge.classList.add(valid ? 'pass' : 'fail');
+        badge.textContent = `${valid ? 'PASS' : 'FAIL'} / ${label}`;
+      }).catch(() => {
+        badge.classList.add('fail');
+        badge.textContent = `FAIL / ${label}`;
+      });
+    });
+  </script>
+</body>
+</html>
