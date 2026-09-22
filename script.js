@@ -5,12 +5,13 @@ async function loadPageContent() {
   if (!main) return;
 
   try {
-    const response = await fetch(main.dataset.contentUrl);
+    const contentUrl = new URL(main.dataset.contentUrl, document.baseURI);
+    const response = await fetch(contentUrl);
     if (!response.ok) throw new Error(`Unable to load ${main.dataset.contentUrl}`);
     main.innerHTML = await response.text();
     document.dispatchEvent(new Event('page:loaded'));
   } catch (error) {
-    main.innerHTML = '<p class="page-error">Portfolio content could not be loaded. Start the site with <code>python3 -m http.server 8000</code>.</p>';
+    main.innerHTML = '<p class="page-error">Portfolio content could not be loaded.</p>';
     console.error(error);
   }
 }
@@ -100,8 +101,6 @@ function initCanvases() {
   resize();
   frame();
 })();
-}
-
 }
 
 // Drifting blobs behind the Background section
