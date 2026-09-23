@@ -1,4 +1,22 @@
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+
+function initSmoothAnchors(root = document) {
+  root.querySelectorAll('a[href^="#"]').forEach(link => {
+    const id = link.getAttribute('href').slice(1);
+    if (!id || link.dataset.smoothBound) return;
+    link.dataset.smoothBound = 'true';
+    link.addEventListener('click', async e => {
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      // wait for the heading webfont to settle so target offsets are final before scrolling
+      await fontsReady;
+      target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      history.pushState(null, '', `#${id}`);
+    });
+  });
+}
 
 async function loadPageContent() {
   const main = document.querySelector('main[data-content-url]');
@@ -18,7 +36,30 @@ async function loadPageContent() {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 document.addEventListener('page:loaded', initCanvases);
+document.addEventListener('page:loaded', initCopyEmail);
+document.addEventListener('page:loaded', () => initSmoothAnchors());
+initSmoothAnchors(document.querySelector('.site-header'));
+initSmoothAnchors(document.querySelector('.site-footer'));
 loadPageContent();
+
+function initCopyEmail() {
+  const button = document.querySelector('.copy-email');
+  if (!button) return;
+  button.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(button.dataset.email);
+      const original = button.textContent;
+      button.textContent = 'Copied!';
+      button.classList.add('copied');
+      setTimeout(() => {
+        button.textContent = original;
+        button.classList.remove('copied');
+      }, 2000);
+    } catch (error) {
+      console.error('Unable to copy email', error);
+    }
+  });
+}
 
 function initCanvases() {
 
